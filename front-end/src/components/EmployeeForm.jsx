@@ -16,7 +16,7 @@ function EmployeeForm() {
     useEffect(() => {
         // Fetch the employee details if editing an existing employee
         if (id) {
-            axiosInstance.get(`/admin/employee/${id}`)
+            axiosInstance.get(`/admin/employee/${id}`) // Added backticks around the template literal
                 .then(response => {
                     const { name, position, salary, email, password } = response.data;
                     setName(name);
@@ -37,7 +37,7 @@ function EmployeeForm() {
             const employeeData = { name, position, salary, email, password };
             if (id) {
                 // If updating an existing employee, send a PUT request
-                await axiosInstance.put(`/admin/employee/${id}`, employeeData);
+                await axiosInstance.put(`/admin/employee/${id}`, employeeData); // Added backticks around the template literal
             } else {
                 // If adding a new employee, send a POST request
                 await axiosInstance.post('/admin/employee', employeeData);

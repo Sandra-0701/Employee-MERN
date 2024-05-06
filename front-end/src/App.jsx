@@ -49,6 +49,7 @@ const App = () => {
         <Route path="/employee-add" element={<PrivateRoute element={<EmployeeForm />} />} />
         <Route path="/employee-dashboard" element={<PrivateRoute element={<EmployeeDashboard />} />} />
         <Route path="/employee-list" element={<PrivateRoute element={<EmployeeList />} />} />
+        <Route path="/employee-form/:id" element={<PrivateRoute element={<EmployeeForm />} />} />
       </Routes>
     </Router>
   );

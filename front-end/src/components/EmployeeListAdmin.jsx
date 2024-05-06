@@ -24,7 +24,7 @@ const EmployeeListAdmin = () => {
 
   const handleDeleteEmployee = async (id) => {
     try {
-      await axiosInstance.delete(`/admin/employee/${id}`);
+      await axiosInstance.delete(`/admin/employee/${id}`); // Added missing backticks around the template literal
       setEmployees(employees.filter(employee => employee._id !== id));
     } catch (error) {
       console.error('Error deleting employee:', error);
@@ -63,7 +63,7 @@ const EmployeeListAdmin = () => {
               <TableCell>{employee.position}</TableCell>
               <TableCell>{employee.salary}</TableCell>
               <TableCell>
-                <Button component={Link} to={`/employee-form/${employee._id}`} variant="outlined" color="primary">
+                <Button component={Link} to={`/employee-form/${employee._id}`} variant="outlined" color="primary"> {/* Added backticks around the template literal */}
                   Update
                 </Button>
                 <Button onClick={() => handleDeleteEmployee(employee._id)} variant="outlined" color="secondary" sx={{ marginLeft: 1 }}>
