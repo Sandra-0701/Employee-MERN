@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
+import AdminNavbar from './AdminNavbar';
 
 function EmployeeForm() {
     const [name, setName] = useState('');
