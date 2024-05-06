@@ -24,6 +24,7 @@ function EmployeeForm() {
 
     return (
         <>
+        <AdminNavbar/>
         <Container maxWidth="md">
             <Box sx={{ marginTop: 4 }}>
                 <Typography variant="h4" gutterBottom>Add New Employee</Typography>
