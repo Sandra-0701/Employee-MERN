@@ -21,6 +21,7 @@ const AdminNavbar = () => {
     navigate('/employee-list-admin'); // Navigate to the employee list page
   };
   return (
+    <>
     <AppBar position="static">
       <Container>
         <Toolbar>
@@ -33,6 +34,7 @@ const AdminNavbar = () => {
         </Toolbar>
       </Container>
     </AppBar>
+    </>
   );
 };
 

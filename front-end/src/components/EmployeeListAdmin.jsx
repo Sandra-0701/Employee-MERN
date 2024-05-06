@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../axiosInstance';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import AdminNavbar from './AdminNavbar';
+import { Link } from 'react-router-dom';
 
 const EmployeeListAdmin = () => {
   const [employees, setEmployees] = useState([]);
@@ -20,6 +21,15 @@ const EmployeeListAdmin = () => {
         setLoading(false);
       });
   }, []);
+
+  const handleDeleteEmployee = async (id) => {
+    try {
+      await axiosInstance.delete(`/admin/employee/${id}`);
+      setEmployees(employees.filter(employee => employee._id !== id));
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+    }
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -41,6 +51,7 @@ const EmployeeListAdmin = () => {
             <TableCell>Password</TableCell>
             <TableCell>Position</TableCell>
             <TableCell>Salary</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -51,6 +62,14 @@ const EmployeeListAdmin = () => {
               <TableCell>{employee.password}</TableCell>
               <TableCell>{employee.position}</TableCell>
               <TableCell>{employee.salary}</TableCell>
+              <TableCell>
+                <Button component={Link} to={`/employee-form/${employee._id}`} variant="outlined" color="primary">
+                  Update
+                </Button>
+                <Button onClick={() => handleDeleteEmployee(employee._id)} variant="outlined" color="secondary" sx={{ marginLeft: 1 }}>
+                  Delete
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
