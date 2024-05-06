@@ -10,7 +10,7 @@ import {
   CircularProgress
 } from '@mui/material';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,8 +23,12 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:3000/users/login', { email, password });
       setLoading(false);
-      const { success, role, message } = response.data;
+      const { success, role, message, token } = response.data;
       if (success) {
+        // Store token in local storage
+        localStorage.setItem('token', token);
+        // Call onLogin function from props
+        onLogin();
         if (role === 'admin') {
           navigate('/admin-dashboard');
         } else if (role === 'employee') {
