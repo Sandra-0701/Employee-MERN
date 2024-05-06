@@ -1,29 +1,25 @@
-// server.js
-
 const express = require('express');
-const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const adminRoutes = require('./routes/admin');
+const connectDB = require('./db/connection')
+const usersRoutes = require('./routes/users');
 const cors = require('cors');
-const connectDB = require('./db/connection');
-require('dotenv').config();
+
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
 
 // Middleware
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
 
+// Connect to MongoDB
+connectDB()
 // Routes
-const employeeRoutes = require('./routes/employee');
-const adminRoutes = require('./routes/admin');
+app.use('/admin', adminRoutes);
+app.use('/users', usersRoutes);
 
-app.use('/api/employees', employeeRoutes);
-app.use('/api/admin', adminRoutes);
-
-// MongoDB Connection
-connectDB();
-
-// Starting the server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// Start server
+const PORT = process.env.PORT;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

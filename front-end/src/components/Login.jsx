@@ -1,41 +1,86 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {
+  Card,
+  CardContent,
+  TextField,
+  Button,
+  Typography,
+  CircularProgress
+} from '@mui/material';
 
-const LoginForm = ({ userType }) => {
-  const [formData, setFormData] = useState({ username: '', password: '' });
+const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const res = await axios.post(`/api/${userType}/login`, formData);
-      localStorage.setItem('token', res.data.token);
-      // Redirect or do something else after successful login
+      const response = await axios.post('http://localhost:3000/users/login', { email, password });
+      setLoading(false);
+      const { success, role, message } = response.data;
+      if (success) {
+        if (role === 'admin') {
+          navigate('/admin-dashboard');
+        } else if (role === 'employee') {
+          navigate('/employee-dashboard');
+        } else {
+          setError('Invalid role');
+        }
+      } else {
+        setError(message);
+      }
     } catch (error) {
-      console.error('Login error:', error);
-      // Handle login error (display error message, clear form fields, etc.)
+      setLoading(false);
+      setError('Error logging in');
     }
   };
 
   return (
-    <div>
-      <h2>{userType === 'admin' ? 'Admin Login' : 'Employee Login'}</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input type="text" name="username" value={formData.username} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" name="password" value={formData.password} onChange={handleChange} required />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <Card sx={{ maxWidth: 400, margin: 'auto', mt: 8, p: 2 }}>
+      <CardContent>
+        <Typography variant="h5" component="h2" gutterBottom>
+          Login
+        </Typography>
+        <form onSubmit={handleLogin}>
+          <TextField
+            id="email"
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            id="password"
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            sx={{ mb: 2 }}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={loading}
+            sx={{ mt: 2 }}
+          >
+            {loading ? <CircularProgress size={24} color="inherit" /> : 'Log in'}
+          </Button>
+          {error && <Typography color="error" mt={2}>{error}</Typography>}
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 
-export default LoginForm;
+export default Login;

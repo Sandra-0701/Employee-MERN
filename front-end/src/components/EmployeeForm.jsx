@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
+import { TextField, Button, Typography, Container, Box } from '@mui/material';
 
 function EmployeeForm() {
     const [name, setName] = useState('');
@@ -12,7 +13,7 @@ function EmployeeForm() {
         event.preventDefault();
         try {
             const newEmployee = { name, position, salary, email, password };
-            await axiosInstance.post('http://localhost:3000/api/employees/', newEmployee);
+            await axiosInstance.post('/admin/employee', newEmployee);
             // Optionally, you can redirect the user to another page after successful submission
             // history.push('/employees');
             alert('Employee added successfully!');
@@ -22,32 +23,64 @@ function EmployeeForm() {
     };
 
     return (
-        <div>
-            <h2>Add New Employee</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Name:</label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Position:</label>
-                    <input type="text" value={position} onChange={(e) => setPosition(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Salary:</label>
-                    <input type="number" value={salary} onChange={(e) => setSalary(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Email:</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <button type="submit">Add Employee</button>
-            </form>
-        </div>
+        <>
+        <Container maxWidth="md">
+            <Box sx={{ marginTop: 4 }}>
+                <Typography variant="h4" gutterBottom>Add New Employee</Typography>
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        label="Name"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                        fullWidth
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Position"
+                        type="text"
+                        value={position}
+                        onChange={(e) => setPosition(e.target.value)}
+                        required
+                        fullWidth
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Salary"
+                        type="number"
+                        value={salary}
+                        onChange={(e) => setSalary(e.target.value)}
+                        required
+                        fullWidth
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        fullWidth
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        fullWidth
+                        margin="normal"
+                    />
+                    <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
+                        Add Employee
+                    </Button>
+                </form>
+            </Box>
+        </Container>
+        </>
+        
     );
 }
 

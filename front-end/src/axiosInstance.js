@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api/',
+  baseURL: 'http://localhost:3000/',
 });
 
 // Add a request interceptor to include the JWT token in the Authorization header
